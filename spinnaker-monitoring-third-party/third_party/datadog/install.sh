@@ -75,12 +75,13 @@ function install_dashboards() {
   # Can be run as any user.
   prompt_if_unset DATADOG_API_KEY
   prompt_if_unset DATADOG_APP_KEY
+  DATADOG_HOST=${DATADOG_HOST:-app.datadoghq.com}
 
   for dashboard in ${SOURCE_DIR}/*Timeboard.json; do
     echo "Installing $(basename $dashboard)"
     curl -s -S -X POST -H "Content-type: application/json" \
          -d "@${dashboard}" \
-        "https://app.datadoghq.com/api/v1/dash?api_key=${DATADOG_API_KEY}&application_key=${DATADOG_APP_KEY}"
+        "https://${DATADOG_HOST}/api/v1/dash?api_key=${DATADOG_API_KEY}&application_key=${DATADOG_APP_KEY}"
   done
 
 }
